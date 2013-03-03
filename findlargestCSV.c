@@ -1,38 +1,72 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//for debbugging purposes -> FDP
 
-
-//this is a change
-FILE *ptr;  
+FILE *ptr;
+FILE *ptr1;
+FILE *TEMP;  
 
 int flCSV(int lsize, char *filename)
 {
-	int n;
+	int n,j;
 	int i = 0;
-	char line[lsize];
-	ptr = fopen(filename,"rw");
+	
+	char line[lsize],line1[lsize];
+	ptr = fopen(filename,"r");
+	TEMP = fopen("newfile.txt","w");
+
+	/*this is somewhat clunky but it allows for 
+	* a dynamic array declaration while also 
+	* converting csv to the more easily read
+	* (in c) carrige return format*/
 	while(fgets(line,80,ptr))
 	{
-		if(line[i] == ',')
+		j = 0;
+		while(j < 80)
 		{
-			putc('\n',ptr);
+			if(line[j] == ',')
+			{
+				line[j] = '\n';
+				/
+				i++;
+			}
+			
+			j++;
 		}
-		i++;
-	}
-	close(ptr);
-	ptr = fopen(filename,"rw");
-	int size = i;
-	int array[size];
-	i = 0;
-	while(fgets(line,80,ptr))
-	{
+		fprintf(TEMP, "%s", line);
 		
+	}
+	fflush(ptr);
+	fflush(TEMP);
+	close(ptr);
+	close(TEMP);
+
+	ptr = fopen("newfile.txt","rw");
+	int size = i;
+
+	printf("%d\n",size ); //FDP
+
+	int array[size];
+
+	i = 0;
+
+	printf("above while\n"); //FDP
+	
+
+	while(fgets(line,lsize,ptr))
+	{
+
+		//!!!!!!Data is not stored correctly here causing seg fault!!!!!!!
+
 		array[i] = (int)strtol(line, (char **)NULL, 10);
 		i++;
-		
 	}
-	 
+
+
+	printf("%d",array[1]); //FDP -> SEG FAULT HERE
+
+
 	for(i = 0; i < size; i++)
 	{
 		if(i == 0)
@@ -46,15 +80,11 @@ int flCSV(int lsize, char *filename)
 				n = array[i];
 			}
 		}
-		printf("%d\n", array[i] );
 	}
-	printf("%d\n",n );
-	
-	
 
+
+	fflush(ptr)
+	feof(ptr);
 	fclose(ptr);
 	return n;
 }
-
-
-
