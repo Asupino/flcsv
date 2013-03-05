@@ -62,6 +62,22 @@ int flCSV(int lsize, char *filename)
 		i++;
 	}
 
+	printf("A temporary file was created to convert the csv \n to a return-carrige-seperated format\n Would you like to keep this file? (1 = yes, 0 = no)\n\n");
+	scanf("%d",&i);
+	if(i == 0)
+	{
+		remove("newfile.txt");
+		printf("File deleted.\n\n");
+	}
+	else if( i == 1)
+	{
+		printf("File Saved to working directory\n\n");
+	}
+	else
+	{
+		printf("Unknown input, Saving File to working directory\n\n");
+	}
+	
 	fflush(ptr);
 	feof(ptr);
 	fclose(ptr);
