@@ -7,4 +7,5 @@ int main()
 	printf("please enter a filename\n");
 	scanf("%s",str);
 	lnum = flCSV(80,str);
+	printf("\n\n%d\n",lnum );
 }
